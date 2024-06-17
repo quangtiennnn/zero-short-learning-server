@@ -3,10 +3,11 @@ from transformers import pipeline
 
 # Load the comments from a CSV file
 hotel_reviews = pd.read_csv('database/only_en_vi.csv')
-# print('Dataframe inputted!!!')
+print('Dataframe inputted!!!')
 
 # Define the classification pipeline
 classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+print('Model downloaded!!!')
 
 # Define the topics for classification
 topics_vi = ['dịch vụ', 'vị trí', 'sạch sẽ', 'phòng', 'giá trị']
@@ -27,11 +28,12 @@ def classify_text(text, topics):
     label = result['labels'][0]
     score = result['scores'][0]
     return label, score
+print('Inputed!!!')
 
 # Process each comment in the dataframe
 labels = []
 scores = []
-
+print('Labeling!!!')
 for _, row in hotel_reviews.iterrows():
     try:
         comment = str(row['comment'])  # Convert to string
@@ -50,6 +52,8 @@ for _, row in hotel_reviews.iterrows():
 
     labels.append(label)
     scores.append(score)
+    
+
 
 # Add new columns to the dataframe
 hotel_reviews['label'] = labels
