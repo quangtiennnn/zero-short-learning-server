@@ -33,17 +33,21 @@ labels = []
 scores = []
 
 for _, row in hotel_reviews.iterrows():
-    comment = row['comment'].astype(str)
-    language = row['language']
-    
-    if language == 'vi':
-        label, score = classify_text(comment, topics_vi)
-        label = vi_to_en[label]  # Convert label to English
-    elif language == 'en':
-        label, score = classify_text(comment, topics_en)
-    else:
-        label, score = None, None
-    
+    try:
+        comment = str(row['comment'])  # Convert to string
+        language = row['language']
+        
+        if language == 'vi':
+            label, score = classify_text(comment, topics_vi)
+            label = vi_to_en[label]  # Convert label to English
+        elif language == 'en':
+            label, score = classify_text(comment, topics_en)
+        else:
+            label, score = 'unknown', None
+    except Exception as e:
+        print(f"Error processing row {row.name}: {e}")
+        label, score = 'unknown', None
+
     labels.append(label)
     scores.append(score)
 
