@@ -33,7 +33,7 @@ labels = []
 scores = []
 
 for _, row in hotel_reviews.iterrows():
-    comment = row['comment']
+    comment = row['comment'].astype(str)
     language = row['language']
     
     if language == 'vi':
